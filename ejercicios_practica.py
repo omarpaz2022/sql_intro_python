@@ -25,15 +25,13 @@ def create_schema():
     # Conectarnos a la base de datos
     # En caso de que no exista el archivo se genera
     # como una base de datos vacia
-    conn = sqlite3.connect('secundaria.db')
+    conn = sqlite3.connect("secundaria.db")
 
     # Crear el cursor para poder ejecutar las querys
     c = conn.cursor()
 
     # Ejecutar una query
-    c.execute("""
-                DROP TABLE IF EXISTS estudiante;
-            """)
+    c.execute("DROP TABLE IF EXISTS estudiante;")
 
     # Ejecutar una query
     c.execute("""
@@ -54,7 +52,7 @@ def create_schema():
     conn.close()
 
 
-def fill():
+def fill(group):
     print('Completemos esta tablita!')
     # Llenar la tabla de la secundaria con al menos 5 estudiantes
     # Cada estudiante tiene los posibles campos:
@@ -63,29 +61,24 @@ def fill():
     # age --> cuantos años tiene el estudiante
     # grade --> en que año de la secundaria se encuentra (1-6)
     # tutor --> nombre de su tutor
+    conn = sqlite3.connect("secundaria.db")
+    c = conn.cursor()
 
-    # Se debe utilizar la sentencia INSERT.
-    # Observar que hay campos como "grade" y "tutor" que no son obligatorios
-    # en el schema creado, puede obivar en algunos casos completar esos campos
+    c.executemany("INSERT INTO estudiante (name, age, grade, tutor) VALUES (?,?,?,?);", group)
 
-    conn = sqlite3.connect('secundaria.db') 
-    c = conn.cursor() 
-    
-
-    c.executemany("INSERT INTO estudiante (name, age, grade, tutor) VALUES (?,?,?,?);", grupo_estudiantes)
-    
+    # Save
     conn.commit()
     # Cerrar la conexión con la base de datos
     conn.close()
-    
-
+    # Se debe utilizar la sentencia INSERT.
+    # Observar que hay campos como "grade" y "tutor" que no son obligatorios
+    # en el schema creado, puede obivar en algunos casos completar esos campos
 
 
 def fetch():
     print('Comprobemos su contenido, ¿qué hay en la tabla?')
     # Utilizar la sentencia SELECT para imprimir en pantalla
     # todas las filas con todas sus columnas
-    # Utilizar fetchone para imprimir de una fila a la vez
 
     # Conectarse a la base de datos
     conn = sqlite3.connect("secundaria.db")
@@ -106,12 +99,10 @@ def fetch():
     conn.close()
     
 
-
 def search_by_grade(grade):
     print('Operación búsqueda!')
     # Utilizar la sentencia SELECT para imprimir en pantalla
-    # aquellos estudiantes que se encuentra en en año "grade"
-
+    # aquellos estudiantes que se encuentran en el año "grade"
     # De la lista de esos estudiantes el SELECT solo debe traer
     # las siguientes columnas por fila encontrada:
     # id / name / age
@@ -131,18 +122,17 @@ def search_by_grade(grade):
     # Cerrar la conexión con la base de datos
     conn.close()
 
-
-def insert(new_student): 
+   
+def insert(new_student):
     print('Nuevos ingresos!')
     # Utilizar la sentencia INSERT para ingresar nuevos estudiantes
     # a la secundaria
 
-
-     # Conectarse a la base de datos
+    # Conectarse a la base de datos
     conn = sqlite3.connect("secundaria.db")
     c = conn.cursor()
 
-    c.execute("INSERT INTO estudiante (name, age) VALUES (?,?);", new_student) 
+    c.execute("INSERT INTO estudiante (name, age) VALUES (?,?);", new_student)
 
     # Save
     conn.commit()
@@ -166,19 +156,21 @@ def modify(id, name):
     # Cerrar la conexión con la base de datos
     conn.close()
 
+
+
 if __name__ == '__main__':
     print("Bienvenidos a otra clase de Inove con Python")
     create_schema()   # create and reset database (DB)
-    grupo_estudiantes = [("Valeria", 15, "3","Juan" ) , 
-                        ("Agustin", 16, "4" , "Lorena") ,
-                        ("Marisa", 16, "4", "Margarita") ,
-                        ("Julio", 17, "5" , "Miguel" ) ,
-                        ("Victoria", 15, "3", "Raul" ) 
 
-                        ]   
-   
-
-    fill()
+    group = [("Pablo", 12, 1,"Javier"),
+             ("Veronica", 13, 2, "Marta"),
+             ("Pedro", 14, 3, "Claudio"),
+             ("Shara", 15, 4, "Adrian"),
+             ("Juan", 16, 5, "Luis"),
+             ("Julian", 17, 6, "Esteban")
+             ]
+    
+    fill(group)
     fetch()
 
     grade = 3
@@ -190,7 +182,5 @@ if __name__ == '__main__':
 
     name = '¿Inove?'
     id = 2
-    modify(id, name)  
+    modify(id, name)
     fetch()
-
-    
