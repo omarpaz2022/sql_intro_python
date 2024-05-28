@@ -4,7 +4,8 @@ import numpy as np
 
 
 def fetch():
-    print("Lectura del valor de la columna pulso de todas las filas de la tabla sensor de la base de datos heart.db ")
+    print("""Lectura del valor de la columna pulso de todas las filas
+             de la tabla sensor de la base de datos heart.db """)
     # Conectarse a la base de datos
     conn = sqlite3.connect("heart.db")
     c = conn.cursor()
@@ -20,7 +21,8 @@ def fetch():
 def show(data):
     x = list(range(0,len(data)))
     y = data
-    # Con esa lista de datos deben graficar utilizando matplotlib todos los pulsos en un gráfico de línea "plot"   
+    # Con esa lista de datos deben graficar utilizando matplotlib
+    #  todos los pulsos en un gráfico de línea "plot"   
     fig = plt.figure()
     fig.suptitle("Ritmo cardiaco", fontsize=16)
     ax = fig.add_subplot()
@@ -54,7 +56,8 @@ def regiones(data):
     std_pulse = np.std(data)
  
     # En una lista x1 e y1 para almacenar todos los valores menores o iguales 
-    # al valor medio menos el desvio (pulso <= mean-std) y su índice correspondiente
+    # Al valor medio menos el desvio (pulso <= mean-std) y su 
+    # ¨Índice correspondiente
     x1 = []
     y1 = []
     for i in range(len(data)):
@@ -63,7 +66,8 @@ def regiones(data):
             y1.append(data[i])
 
     # En una lista x2 e y2 para almacenar todos los valores mayores o iguales 
-    # al valor medio más el desvio (pulso >= mean+std) y su índice correspondiente
+    # Al valor medio más el desvio (pulso >= mean+std) y su 
+    # Índice correspondiente
     x2 = []
     y2 = []
     for i in range(len(data)):
@@ -71,8 +75,9 @@ def regiones(data):
             x2.append(i)
             y2.append(data[i])
     
-    # En una lista x3 e y3 para almacenar todos aquellos valores que no haya guardado en
-    # ninguna de las dos listas anteriores y su índice correspondiente
+    # En una lista x3 e y3 para almacenar todos aquellos valores que
+    #  No haya guardado en
+    # Ninguna de las dos listas anteriores y su índice correspondiente
     x3 = []
     y3 = []
     for i in range(len(data)):
@@ -80,8 +85,10 @@ def regiones(data):
             x3.append(i)
             y3.append(data[i])
 
-    # dibujar tres scatter plot en un solo gráfico. Cada uno de los tres scatter plot
-    # representa cada una de las listas mencionadas que debe dibujar con un color diferente.
+    # Dibujar tres scatter plot en un solo gráfico. Cada uno de los
+    #  Tres scatter plot
+    # Representa cada una de las listas mencionadas que debe dibujar
+    #  Con un color diferente.
     fig = plt.figure()
     fig.suptitle('Distribucion de pulsaciones', fontsize=16)
     ax1 = fig.add_subplot(2, 2, 1)  
